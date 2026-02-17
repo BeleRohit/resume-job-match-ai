@@ -17,7 +17,7 @@ export default function Home() {
   formData.append("file", file);
 
   try {
-    const res = await fetch("http://localhost:8000/upload-resume", {
+    const res = await fetch("https://resume-job-match-ai.onrender.com/upload-resume", {
       method: "POST",
       body: formData
     });
@@ -42,7 +42,7 @@ export default function Home() {
 
   async function analyze() {
 
-    const res = await fetch("http://localhost:8000/analyze", {
+    const res = await fetch("https://resume-job-match-ai.onrender.com/analyze", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ job_description: jd })
