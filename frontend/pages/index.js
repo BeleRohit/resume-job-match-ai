@@ -12,9 +12,12 @@ const supabase = createClient(
 // Your live backend
 const BACKEND = "https://resume-job-match-ai.onrender.com";
 
+
 export default function Home() {
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
+const [history, setHistory] = useState([]);
+const [skillGaps, setSkillGaps] = useState([]);
 
   const [jd, setJd] = useState("");
   const [file, setFile] = useState(null);
@@ -23,10 +26,45 @@ export default function Home() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
 
+  async function loadHistory() {
+  const session = await supabase.auth.getSession();
+  const token = session.data.session.access_token;
+
+  const res = await fetch(`${BACKEND}/my-history`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  const data = await res.json();
+  setHistory(data.history || []);
+}
+async function loadSkillGaps() {
+  const session = await supabase.auth.getSession();
+  const token = session.data.session.access_token;
+
+  const res = await fetch(`${BACKEND}/skill-gaps`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  const data = await res.json();
+  setSkillGaps(data.top_missing_skills || []);
+}
+
+
+
   // Check auth on load
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
+    if (data.user) {
+  loadHistory();
+  loadSkillGaps();
+}
+
+
     });
   }, []);
 
@@ -126,6 +164,9 @@ export default function Home() {
 
       const data = await res.json();
       setResult(data);
+      setResult(data);
+      loadHistory();
+
 
     } catch {
       setError("Analysis failed. Please try again.");
@@ -206,6 +247,49 @@ export default function Home() {
             </pre>
           </div>
         )}
+
+        {history.length > 0 && (
+  <div style={card}>
+    <h2>Your Past Analyses</h2>
+
+    {history.map((h, i) => (
+      <div
+        key={i}
+        style={{
+          marginBottom: 15,
+          borderBottom: "1px solid #1e293b",
+          paddingBottom: 10
+        }}
+      >
+        <p>
+          <b>Final:</b> {h.final_score}% &nbsp; | &nbsp;
+          <b>ATS:</b> {h.ats_score}%
+        </p>
+
+        <p style={{ color: "#94a3b8", fontSize: 12 }}>
+          {new Date(h.created_at).toLocaleString()}
+        </p>
+
+        <p style={{ color: "#cbd5f5" }}>
+          Missing skills: {h.missing_skills?.slice(0, 5).join(", ")}
+        </p>
+      </div>
+    ))}
+  </div>
+)}
+{skillGaps.length > 0 && (
+  <div style={card}>
+    <h2>Top Skill Gaps (Across All Jobs)</h2>
+
+    {skillGaps.map((s, i) => (
+      <p key={i}>
+        {s[0]} — missing in {s[1]} jobs
+      </p>
+    ))}
+  </div>
+)}
+
+
 
         <p style={{ marginTop: 60, color: "#64748b", fontSize: 12 }}>
           Built by Rohit • AI-powered career intelligence
