@@ -275,9 +275,17 @@ async function loadSkillGaps() {
         }}
       >
         <p>
-          <b>Final:</b> {h.final_score}% &nbsp; | &nbsp;
-          <b>ATS:</b> {h.ats_score}%
-        </p>
+  <b>Final:</b> {h.final_score}% | <b>ATS:</b> {h.ats_score}%
+</p>
+
+<select style={{ marginTop: 5 }}>
+  <option>Interested</option>
+  <option>Applied</option>
+  <option>Interview</option>
+  <option>Rejected</option>
+  <option>Offer</option>
+</select>
+
 
         <p style={{ color: "#94a3b8", fontSize: 12 }}>
           {new Date(h.created_at).toLocaleString()}

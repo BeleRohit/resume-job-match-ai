@@ -215,14 +215,18 @@ def analyze(req: AnalyzeRequest, Authorization: str = Header(...)):
     rewrite = rewrite_resume(resume,jd,missing)
 
     supabase.table("job_matches").insert({
-        "user_id": user_id,
-        "job_description": jd,
-        "final_score": final,
-        "ats_score": ats,
-        "semantic_score": semantic,
-        "missing_skills": missing,
-        "rewrite_suggestions": rewrite
-    }).execute()
+    "user_id": user_id,
+    "job_description": jd,
+    "company_name": "",
+    "status": "Interested",
+    "notes": "",
+    "final_score": final,
+    "ats_score": ats,
+    "semantic_score": semantic,
+    "missing_skills": missing,
+    "rewrite_suggestions": rewrite
+}).execute()
+
 
     return {
         "final_score":final,
