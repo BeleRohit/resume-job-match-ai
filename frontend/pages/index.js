@@ -180,13 +180,20 @@ async function loadSkillGaps() {
     <div style={{ fontFamily: "Inter, Arial", background: "#0f172a", minHeight: "100vh", color: "#fff", padding: 40 }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
 
-        <h1 style={{ fontSize: 36 }}>Resume Match AI</h1>
+        <h1 style={{ fontSize: 42, fontWeight: 700 }}>
+  Stop Applying Blindly.
+</h1>
 
-        <p style={{ color: "#94a3b8", maxWidth: 600 }}>
-          Upload your resume. Paste any job description.
-          Instantly see match score, ATS compatibility,
-          missing skills, and resume improvements.
-        </p>
+<p style={{ color: "#94a3b8", fontSize: 18, maxWidth: 700, marginTop: 10 }}>
+  Know your ATS score, your gaps, and your fixes — every time.
+</p>
+
+<div style={{ marginTop: 20, color: "#cbd5f5" }}>
+  <p>✔ Built for Data Engineers switching jobs</p>
+  <p>✔ Identify missing skills instantly</p>
+  <p>✔ Improve your resume before you apply</p>
+</div>
+
 
         <div style={card}>
           <h3>1. Upload Resume (PDF)</h3>
